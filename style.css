@@ -1,0 +1,93 @@
+:root {
+    font-size: 16px;
+    --main-font: 'Nunito', 'Quicksand', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    --main-background-color: #e4e5f1;
+    --header-background-color: #484b6a;
+    --font-color: black;
+    --reset-button-background-color: #e4e5f1;
+    --even-button-color: #e4e5f1;
+    --odd-button-color: #484b6a;
+}
+
+* {
+    box-sizing: content-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--main-font);
+}
+
+body {
+    background-color: var(--main-background-color);
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+    height: 100vh;
+    justify-items: center;
+    align-items: center;
+}
+
+div.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+    height: 100%;
+    background-color: var(--header-background-color);
+    color: var(--font-color);
+    box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+div.title {
+    font-size: clamp(2rem, 3vw, 4rem);
+    font-weight: bold;
+}
+
+button#reset {
+    padding: 5px 15px;
+    font-size: clamp(1rem, 1vw, 1.5rem);
+    border: none;
+    border-radius: 5px;
+    background-color: var(--reset-button-background-color);
+    transition: all 0.5s;
+}
+
+button#reset:hover {
+    transform: scale(120%);
+    cursor: pointer;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+div.game-container {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-columns: repeat(3, minmax(100px, 150px));
+    grid-template-rows: repeat(3, minmax(100px, 150px));
+    border: none;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s;
+}
+
+div.game-container:hover{
+    box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.75);
+}
+
+
+div.game-container>button {
+    border: 1px solid black;
+    height: 100%;
+    width: 100%;
+    font-size: clamp(3rem,5vw,5rem);
+}
+
+div.game-container>button:hover {
+    cursor: pointer;
+}
+
+div.game-container>button:nth-child(2n) {
+    background-color: var(--even-button-color);
+}
+
+div.game-container>button:nth-child(2n+1) {
+    background-color: var(--odd-button-color);
+}

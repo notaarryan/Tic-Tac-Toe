@@ -5,7 +5,7 @@ const GameBoard = (function () {
   };
 
   const checkWinner = function () {
-    winningCombos.some((combo) => {
+    return winningCombos.some((combo) => {
       const first = gameboard[combo[0]];
       if (first == null) {
         return false;
@@ -21,7 +21,11 @@ const GameBoard = (function () {
   };
 
   init();
-  return { updateGameboard: updateGameboard, init: init };
+  return {
+    updateGameboard: updateGameboard,
+    init: init,
+    checkWinner: checkWinner,
+  };
 })();
 
 const winningCombos = [
@@ -50,9 +54,17 @@ const Player = function (name) {
 
 (function () {
   const GameRounds = {
+    turn: 1,
     players: [],
     init: function () {
+      this.renderFunctions();
       this.functions();
+      this.cacheDom();
+      this.bindEvents();
+    },
+    cacheDom: function () {
+      this.gameButtons = document.querySelectorAll("div.game-container>button");
+      this.resetButton = document.querySelector("#reset");
     },
     functions: function () {
       this.createPlayer = function (name) {
@@ -64,6 +76,36 @@ const Player = function (name) {
       };
       this.resetBoard = function () {
         GameBoard.init();
+        this.gameButtons.forEach((button) => {
+          button.innerText = "";
+          button.disabled = false;
+          this.turn = 1;
+        });
+      };
+    },
+    bindEvents: function () {
+      this.resetButton.addEventListener("click", () => this.resetBoard());
+      this.gameButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          this.renderButtonClick(button);
+          GameBoard.updateGameboard(button.id - 1, button.innerText);
+          if (GameBoard.checkWinner()) {
+            alert("We have a winner");
+            this.resetBoard();
+          }
+          button.disabled = true;
+        });
+      });
+    },
+    renderFunctions: function () {
+      this.renderButtonClick = function (button) {
+        if (this.turn % 2 == 0) {
+          button.innerText = "O";
+          ++this.turn;
+        } else {
+          button.innerText = "X";
+          ++this.turn;
+        }
       };
     },
   };
